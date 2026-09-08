@@ -1,5 +1,8 @@
 name: draft-release
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true
+
 on:
   workflow_dispatch:
 
@@ -15,7 +18,7 @@ jobs:
           submodules: recursive
       - name: Copy config
         run: |
-          cp sdkconfig.defaults.mk1 sdkconfig.defaults
+          cp sdkconfig.defaults.strampler sdkconfig.defaults
       - name: esp-idf build
         uses: espressif/esp-idf-ci-action@v1.1.0
         with:
