@@ -23,7 +23,21 @@ jobs:
           esp_idf_version: v5.1.1
           target: esp32
           command: idf.py update-dependencies build
-          env: ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true
+      - name: Upload ctag-tbd.bin
+        uses: actions/upload-artifact@v4
+        with:
+          name: ctag-tbd.bin
+          path: /app/jmsiener/ctag-tbd/build/ctag-tbd.bin
+      - name: Upload bootloader.bin
+        uses: actions/upload-artifact@v4
+        with:
+          name: bootloader.bin
+          path: /app/ctag-fh-kiel/ctag-tbd/build/bootloader/*.bin
+      - name: Upload partition-table.bin
+        uses: actions/upload-artifact@v4
+          with:
+          name: partition-table.bin
+          path: /app/jmsiener/ctag-tbd/build/partition_table/partition-table.bin
       - name: Archive binaries
         run: |
           zip --junk-paths binaries /app/jmsiener/ctag-tbd/build/*.bin /app/jmsiener/ctag-tbd/build/bootloader/*.bin /app/jmsiener/ctag-tbd/build/partition_table/*.bin
