@@ -35,7 +35,7 @@ jobs:
           path: /app/ctag-fh-kiel/ctag-tbd/build/bootloader/*.bin
       - name: Upload partition-table.bin
         uses: actions/upload-artifact@v4
-          with:
+        with:
           name: partition-table.bin
           path: /app/jmsiener/ctag-tbd/build/partition_table/partition-table.bin
       - name: Archive binaries
