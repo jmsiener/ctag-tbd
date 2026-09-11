@@ -1,0 +1,35 @@
+name: strampler_draft-release.yml
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Copy config
+        run: |
+          cp sdkconfig.defaults.strampler sdkconfig.defaults
+      - name: esp-idf build
+        uses: espressif/esp-idf-ci-action@v1.1.0
+        with:
+          esp_idf_version: v5.1.1
+          target: esp32
+          command: idf.py update-dependencies build
+      - name: Archive binaries
+        run: |
+          zip --junk-paths binaries ${GITHUB_WORKSPACE}/build/*.bin ${GITHUB_WORKSPACE}/build/bootloader/*.bin ${GITHUB_WORKSPACE}/build/partition_table/*.bin
+          uses: actions/upload-artifact@v7
+      - name: Upload binary
+        uses: actions/upload-artifact@v7
+        with:
+          name: binaries.zip
+          path: ./binaries.zip
+          archive: false
